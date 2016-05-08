@@ -1,0 +1,24 @@
+---
+
+- name: APT official nginx key
+  become: yes
+  apt_key: url=http://nginx.org/keys/nginx_signing.key
+
+- name: APT official nginx repository
+  become: yes
+  apt_repository: repo="deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release }} nginx"
+
+- name: Install the nginx packages
+  become: yes
+  apt: name={{ item }} state=present
+  with_items: nginx
+
+- name: Configure nginx conf
+  become: yes
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify: reload nginx
+
+- name: Start Nginx Service
+  become: yes
+  service: name=nginx state=started enabled=yes
+  

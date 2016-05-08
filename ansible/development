@@ -1,0 +1,11 @@
+[targets]
+localhost ansible_connection=local
+
+[development]
+localhost
+
+[webapp]
+localhost
+
+[database]
+localhost

@@ -1,0 +1,2 @@
+home_directory: /home/vagrant
+gem_home: "{{ home_directory }}/.gem/ruby/2.3.0"

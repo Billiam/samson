@@ -1,0 +1,5 @@
+postgres_user: vagrant
+postgres_dbs:
+  - samson_development
+  - samson_production
+  - samson_test

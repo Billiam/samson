@@ -39,3 +39,9 @@
 
 # .bak files
 *.bak
+
+# Vagrant
+/.vagrant
+
+# Ansible provisioning
+/ansible/site.retry

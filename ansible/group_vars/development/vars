@@ -1,0 +1,4 @@
+application_path: /vagrant
+application_user: vagrant
+home_directory: /home/vagrant
+host_name: localhost:5000

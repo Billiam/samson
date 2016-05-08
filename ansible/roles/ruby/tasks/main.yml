@@ -1,0 +1,37 @@
+- name: add Brightbox repository
+  apt_repository:
+    repo: 'ppa:brightbox/ruby-ng'
+    update_cache: yes
+
+- name: install Brightbox ruby
+  apt:
+    name:
+      - ruby2.3
+      - ruby2.3-dev
+      - ruby-switch
+    state: present
+    update_cache: true
+
+- name: set ruby 2.3 as default
+  shell: ruby-switch --set ruby2.3
+
+- name: install gems
+  gem:
+    name: "{{ item }}"
+    state: present
+    user_install: no
+  become: true
+  become_user: root
+  with_items:
+    - bundler
+
+- name: create gemrc
+  template: src=gemrc dest={{ home_directory }}/.gemrc mode=0644
+
+- name: add GEM_HOME to .bashrc
+  lineinfile:
+    dest: "{{ home_directory }}/.bashrc"
+    insertafter: BOF
+    regexp: ^export.GEM_HOME
+    line: "export GEM_HOME={{ gem_home }}"
+    state: present

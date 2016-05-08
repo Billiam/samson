@@ -1,0 +1,6 @@
+---
+
+- name: config - configure puma
+  become: yes
+  template: src=puma.conf.j2 dest=/etc/init/puma.conf
+  notify: restart puma

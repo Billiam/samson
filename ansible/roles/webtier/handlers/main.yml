@@ -1,0 +1,4 @@
+---
+- name: restart puma
+  become: yes
+  service: name=puma state=restarted

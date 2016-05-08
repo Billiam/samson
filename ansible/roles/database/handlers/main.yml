@@ -1,0 +1,28 @@
+- name: Install PostgreSQL dependencies
+  action: apt pkg={{item}} state=latest
+  with_items:
+    - python-pycurl
+    - python-psycopg2
+
+- name: Install PostgreSQL
+  apt: pkg=postgresql-9.3 state=latest update_cache=true
+
+- name: Copy valid pg_hba.conf
+  template: src=pg_hba.conf.j2 dest=/etc/postgresql/9.3/main/pg_hba.conf
+
+- name: Copy valid postgresql.conf
+  template: src=postgresql.conf.j2 dest=/etc/postgresql/9.3/main/postgresql.conf
+
+- name: create the postgresql user for application
+  postgresql_user: name={{postgres_user}} role_attr_flags=SUPERUSER,CREATEDB
+  become: yes
+  become_user: postgres
+
+- name: create the postgresql database for application
+  postgresql_db:
+    name: "{{ item }}"
+    owner: "{{ postgres_user }}"
+    state: present
+  with_items: "{{ postgres_dbs }}"
+  become: yes
+  become_user: postgres
